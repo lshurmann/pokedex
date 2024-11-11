@@ -8,14 +8,20 @@ function App() {
 
   useEffect(() => {
     axios.get("https://pokeapi.co/api/v2/pokemon").then((response) => {
-      setList(response.data.results)
+      const sortedArray = [...response.data.results]
+
+      sortedArray.sort((a, b) => {
+        return a.name.localeCompare(b.name)
+      })
+
+      setList(sortedArray)
     })
   }, [])
 
   return (
     <>
       {list.map((item) => (
-        <Pokemon data={item} />
+        <Pokemon key={item.name} data={item} />
       ))}
     </>
   )
